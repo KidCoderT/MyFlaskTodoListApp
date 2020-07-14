@@ -6,8 +6,53 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Hello World!!</h1>
+    <div class="todo">
+        <h1 class="todo__header">To Do App 📝</h1>
+
+        <div class="card todo__headerContainer">
+            <p class="font-weight-bold"> What Are we doing today Fellas?? 🔥</p>
+            <form class="todo__form">
+                <input placeholder="Write task here..." type="text" name="todoitem">
+                <input class="btn btn-info" type="submit" value="➕ Add Item">
+            </form>
+        </div>
+    </div>
+
+    <div class="todo__itemContainer">
+
+        <div class="card todo__innerItemContainer">
+
+            <h2 class="todo__itemHeader font-weight-bolder">To Do's 🕐</h2>
+
+            <ul class="todo__container">
+                <li class="todo__item">
+                    <p class="font-weight-bold">My Testing Unfinished Todo</p>
+                    <a class="btn btn-outline-success" href="#">Complete ➡️</a>
+                    <a class="todo__close" href="#">❌</a>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="card todo__innerItemContainer">
+
+            <h2 class="todo__itemHeader font-weight-bolder">Done ✅</h2>
+
+            <ul class="todo__container">
+                <li class="todo__item">
+                    <p class="font-weight-bold">My Testing finished Todo</p>
+                    <a class="btn btn-outline-success" href="#">⬅️Undo</a>
+                    <a class="todo__close" href="#">❌</a>
+                </li>
+            </ul>
+
+        </div>
+
+
+    </div>
 </body>
 </html>
