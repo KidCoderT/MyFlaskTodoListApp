@@ -31,5 +31,12 @@ def add():
     db.session.commit()
     return redirect(url_for("index"))
 
+@app.route('/uncheck/<id>', methods=["POST"])
+def uncheck():
+    todo = Todo.query.filter_by(id=int(id)).first()
+    todo.completed = False
+    db.session.commit()
+    return redirect(url_for("index"))
+
 if __name__ == '__main__':
     app.run(debug=True)
