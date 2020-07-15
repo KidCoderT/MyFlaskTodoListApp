@@ -24,38 +24,48 @@
 
     <div class="todo__itemContainer">
 
-        <div class="card todo__innerItemContainer">
+        {% if unfinished_todos|length > 0 %}
+            <div class="card todo__innerItemContainer">
 
-            <h2 class="todo__itemHeader font-weight-bolder">To Do's 🕐</h2>
+                <h2 class="todo__itemHeader font-weight-bolder">To Do's 🕐</h2>
 
-            <ul class="todo__container">
+                <ul class="todo__container">
 
-                {% for incomplete_todo_item in unfinished_todos %}
- 
-                <li class="todo__item">
-                    <p class="font-weight-bold">{{ incomplete_todo_item.text }}</p>
-                    <a class="btn btn-outline-success" href="#">Complete ➡️</a>
-                    <a class="todo__close" href="#">❌</a>
-                </li>
+                    {% for todo in unfinished_todos %}
+    
+                    <li class="todo__item">
+                        <p class="font-weight-bold">{{ todo.text }}</p>
+                        <a class="btn btn-outline-success" href="{{ url_for('completed', id=todo.id) }}">Complete ➡️</a>
+                        <a class="todo__close" href="{{ url_for('delete', id=todo.id) }}">❌</a>
+                    </li>
 
-                {% endfor %}
-            </ul>
+                    {% endfor %}
+                </ul>
 
-        </div>
+            </div>
+        {% endif %}
 
-        <div class="card todo__innerItemContainer">
 
-            <h2 class="todo__itemHeader font-weight-bolder">Done ✅</h2>
+        {% if finished_todos|length > 0 %}
+            <div class="card todo__innerItemContainer">
 
-            <ul class="todo__container">
-                <li class="todo__item">
-                    <p class="font-weight-bold">My Testing finished Todo</p>
-                    <a class="btn btn-outline-success" href="#">⬅️Undo</a>
-                    <a class="todo__close" href="#">❌</a>
-                </li>
-            </ul>
+                <h2 class="todo__itemHeader font-weight-bolder">Done ✅</h2>
 
-        </div>
+                <ul class="todo__container">
+
+                    {% for todo in finished_todos %}
+
+                    <li class="todo__item">
+                        <p class="font-weight-bold">{{ todo.text }}</p>
+                        <a class="btn btn-outline-success" href="{{ url_for('uncheck', id=todo.id) }}">⬅️Undo</a>
+                        <a class="todo__close" href="{{ url_for('delete', id=todo.id) }}">❌</a>
+                    </li>
+
+                    {% endfor %}
+                </ul>
+
+            </div>
+        {% endif %}
 
 
     </div>
