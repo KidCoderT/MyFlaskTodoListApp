@@ -25,7 +25,7 @@ def add():
     return redirect(url_for("index"))
 
 @app.route('/completed/<id>', methods=["POST"])
-def add():
+def completed():
     todo = Todo.query.filter_by(id=int(id)).first()
     todo.completed = True
     db.session.commit()
@@ -36,6 +36,12 @@ def uncheck():
     todo = Todo.query.filter_by(id=int(id)).first()
     todo.completed = False
     db.session.commit()
+    return redirect(url_for("index"))
+
+@app.route('/delete/<id>', methods=["POST"])
+def uncheck():
+    todo = Todo.query.filter_by(id=int(id)).first()
+    db.session.delete(todo)
     return redirect(url_for("index"))
 
 if __name__ == '__main__':
