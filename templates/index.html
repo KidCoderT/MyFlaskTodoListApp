@@ -24,7 +24,7 @@
 
     <div class="todo__itemContainer">
 
-        {% if unfinished_todos|length > 0 %}
+        {% if unfinished_todos %}
             <div class="card todo__innerItemContainer">
 
                 <h2 class="todo__itemHeader font-weight-bolder">To Do's 🕐</h2>
@@ -46,7 +46,7 @@
         {% endif %}
 
 
-        {% if finished_todos|length > 0 %}
+        {% if finished_todos %}
             <div class="card todo__innerItemContainer">
 
                 <h2 class="todo__itemHeader font-weight-bolder">Done ✅</h2>
