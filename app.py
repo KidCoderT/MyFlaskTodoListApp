@@ -22,7 +22,13 @@ def add():
     new_todo = Todo(text=request.form["todoitem"], completed=False)
     db.session.add(new_todo)
     db.session.commit()
+    return redirect(url_for("index"))
 
+@app.route('/completed/<id>', methods=["POST"])
+def add():
+    todo = Todo.query.filter_by(id=int(id)).first()
+    todo.completed = True
+    db.session.commit()
     return redirect(url_for("index"))
 
 if __name__ == '__main__':
