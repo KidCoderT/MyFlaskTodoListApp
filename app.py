@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -8,13 +8,22 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class Todo(db.Model):
-    pk = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(200))
-    is_done = db.Column(db.Boolean)
+    completed = db.Column(db.Boolean)
 
 @app.route('/')
-def hello_world():
-    return render_template("index.html")
+def index():
+    incomplete_todos = Todo.query.filter_by(completed=False).all()
+    return render_template("index.html", unfinished_todos=incomplete_todos)
+
+@app.route('/add', methods=["POST"])
+def add():
+    new_todo = Todo(text=request.form["todoitem"], completed=False)
+    db.session.add(new_todo)
+    db.session.commit()
+
+    return redirect(url_for("index"))
 
 if __name__ == '__main__':
     app.run(debug=True)
