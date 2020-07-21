@@ -1,70 +1,198 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Todo App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="todo">
-        <h1 class="todo__header"><span class="todo__header_text">To Do App 📝</span></h1>
+{% extends 'base.html' %}
 
-        <div class="card todo__headerContainer">
-            <p class="font-weight-bold">What are we doing tonight fellas!!!!!! 🔥🔥</p>
-            <form class="todo__form" action="{{ url_for('add') }}" method="POST">
-                <input placeholder="Write task here..." type="text" name="todoitem">
-                <input class="btn btn-info" type="submit" value="Create">
-            </form>
+{% block container %}
+
+<div class="card">
+  <header class="card-header">
+    <p class="card-header-title has-text-white has-background-primary">Todo List App📝</p>
+  </header>
+  <div class="card-content">
+    <div class="content">
+        <form action="{{ url_for('add') }}" method="POST" class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <label class="label">What are we doing tonight fellas!!!!!! 🔥🔥</label>
+                    <div class="field has-addons" style="margin-left: 20px;">
+                        <div class="control">
+                            <input class="input" type="text" placeholder="Write task here..." name="todoitem">
+                        </div>
+                        <div class="control">
+                            <input class="button is-info" type="submit" value="Create">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% if finished_todos or unfinished_todos %}
+<div class="box">
+    <div class="columns">
+        <div class="column">
+            
         </div>
     </div>
 
-    <div class="todo__itemContainer">
+    <div class="columns">
 
-        {% if unfinished_todos %}
-            <div class="card todo__innerItemContainer">
+        {% if finished_todos and not unfinished_todos %}
+        <div class="column is-full">
 
-                <h2 class="todo__itemHeader font-weight-bolder">To Do's 🕐</h2>
-
-                <ul class="todo__container">
-
-                    {% for todo in unfinished_todos %}
-    
-                    <li class="todo__item">
-                        <p class="font-weight-bold">{{ todo.text }}</p>
-                        <a class="btn btn-outline-success" href="{{ url_for('completed', id=todo.id) }}">Complete ➡️</a>
-                        <a class="todo__close" href="{{ url_for('delete', id=todo.id) }}">❌</a>
-                    </li>
-
-                    {% endfor %}
-                </ul>
-
+            {% if finished_todos %}
+            
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title has-text-white has-background-primary">
+                        Done ✅
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <div class="row">
+            
+                            {% for todo in finished_todos %}
+            
+            
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title is-striked">
+                                        {{ todo.text }}
+                                    </p>
+                                    <a href="{{ url_for('uncheck', id=todo.id) }}" class="card-header-icon"
+                                        aria-label="more options">
+                                        <span class="button is-success">
+                                            ⬅️Undo
+                                        </span>
+                                    </a>
+                                    <a href="{{ url_for('delete', id=todo.id) }}" class="card-header-icon"
+                                        aria-label="more options">
+                                        <span class="button is-danger">
+                                            ❌
+                                        </span>
+                                    </a>
+                                </header>
+                            </div>
+            
+                            <br>
+            
+                            {% endfor %}
+            
+                        </div>
+                    </div>
+                </div>
             </div>
+            
+            {% endif %}
+        </div>
         {% endif %}
-
 
         {% if finished_todos %}
-            <div class="card todo__innerItemContainer">
-
-                <h2 class="todo__itemHeader font-weight-bolder">Done ✅</h2>
-
-                <ul class="todo__container">
-
-                    {% for todo in finished_todos %}
-
-                    <li class="todo__item">
-                        <p class="font-weight-bold">{{ todo.text }}</p>
-                        <a class="btn btn-outline-success" href="{{ url_for('uncheck', id=todo.id) }}">⬅️Undo</a>
-                        <a class="todo__close" href="{{ url_for('delete', id=todo.id) }}">❌</a>
-                    </li>
-
-                    {% endfor %}
-                    
-                </ul>
-
-            </div>
+            <div class="column is-half">
+        {% else %}
+            <div class="column is-full">
         {% endif %}
 
+            {% if unfinished_todos %}
+            
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title has-text-white has-background-primary">
+                        To Do's 🕐
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <div class="row">
+                        
+                            {% for todo in unfinished_todos %}
+                        
+                            
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title is-vcentered">
+                                        {{ todo.text }}
+                                    </p>
+                                    <a href="{{ url_for('completed', id=todo.id) }}" class="card-header-icon" aria-label="more options">
+                                        <span class="button is-success">
+                                            Complete ➡️
+                                        </span>
+                                    </a>
+                                    <a href="{{ url_for('delete', id=todo.id) }}" class="card-header-icon" aria-label="more options">
+                                        <span class="button is-danger">
+                                            ❌
+                                        </span>
+                                    </a>
+                                </header>
+                            </div>
 
+                            <br>
+                        
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+
+        {% if finished_todos and unfinished_todos %}
+        <div class="column is-half">
+
+            {% if finished_todos %}
+            
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title has-text-white has-background-primary">
+                        Done ✅
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <div class="row">
+            
+                            {% for todo in finished_todos %}
+            
+            
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title is-vcentered" style="text-decoration: line-through;">
+                                        {{ todo.text }}
+                                    </p>
+                                    <a href="{{ url_for('uncheck', id=todo.id) }}" class="card-header-icon"
+                                        aria-label="more options">
+                                        <span class="button is-success">
+                                            ⬅️Undo
+                                        </span>
+                                    </a>
+                                    <a href="{{ url_for('delete', id=todo.id) }}" class="card-header-icon"
+                                        aria-label="more options">
+                                        <span class="button is-danger">
+                                            ❌
+                                        </span>
+                                    </a>
+                                </header>
+                            </div>
+            
+                            <br>
+            
+                            {% endfor %}
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            {% endif %}
+        </div>
+        {% endif %}
+        </div>
     </div>
-</body>
-</html>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -6,12 +6,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(200))
     completed = db.Column(db.Boolean)
 
+    def __str__(self):
+        return self.text
 
 @app.route('/')
 def index():
@@ -48,4 +49,4 @@ def delete(id):
     return redirect(url_for("index"))
 
 if __name__ == '__main__':
-    app.run(threaded=True)
+    app.run(threaded=True, debug=True)
