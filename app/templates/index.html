@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+<!-- {% if finished_todos or unfinished_todos %} -->
+<div class="box">
+
+    <div class="columns">
+
+        {% if finished_todos and not unfinished_todos %}
+        <div class="column is-full">
+
+            {% if finished_todos %}
+
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title has-text-white has-background-primary">
+                        Done ✅
+                    </p>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <div class="row">
+
+                            {% for todo in finished_todos %}
+
+
+                            <div class="card">
+                                <header class="card-header">
+                                    <p class="card-header-title is-striked">
+                                        {{ todo.text }}
+                                    </p>
+                                    <a href="{{ url_for('uncheck', id=todo.id) }}" class="card-header-icon"
+                                        aria-label="more options">
+                                        <span class="button is-success">
+                                            ⬅️Undo
+                                        </span>
+                                    </a>
+                                    <a href="{{ url_for('delete', id=todo.id) }}" class="card-header-icon"
+                                        aria-label="more options">
+                                        <span class="button is-danger">
+                                            ❌
+                                        </span>
+                                    </a>
+                                </header>
+                            </div>
+
+                            <br>
+
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if finished_todos %}
+        <div class="column is-half">
+            {% else %}
+            <div class="column is-full">
+                {% endif %}
+
+                {% if unfinished_todos %}
+
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title has-text-white has-background-primary">
+                            To Do's 🕐
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <div class="row">
+
+                                {% for todo in unfinished_todos %}
+
+
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title is-vcentered">
+                                            {{ todo.text }}
+                                        </p>
+                                        <a href="{{ url_for('completed', id=todo.id) }}" class="card-header-icon"
+                                            aria-label="more options">
+                                            <span class="button is-success">
+                                                Complete ➡️
+                                            </span>
+                                        </a>
+                                        <a href="{{ url_for('delete', id=todo.id) }}" class="card-header-icon"
+                                            aria-label="more options">
+                                            <span class="button is-danger">
+                                                ❌
+                                            </span>
+                                        </a>
+                                    </header>
+                                </div>
+
+                                <br>
+
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+
+            {% if finished_todos and unfinished_todos %}
+            <div class="column is-half">
+
+                {% if finished_todos %}
+
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title has-text-white has-background-primary">
+                            Done ✅
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <div class="row">
+
+                                {% for todo in finished_todos %}
+
+
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title is-vcentered"
+                                            style="text-decoration: line-through;">
+                                            {{ todo.text }}
+                                        </p>
+                                        <a href="{{ url_for('uncheck', id=todo.id) }}" class="card-header-icon"
+                                            aria-label="more options">
+                                            <span class="button is-success">
+                                                ⬅️Undo
+                                            </span>
+                                        </a>
+                                        <a href="{{ url_for('delete', id=todo.id) }}" class="card-header-icon"
+                                            aria-label="more options">
+                                            <span class="button is-danger">
+                                                ❌
+                                            </span>
+                                        </a>
+                                    </header>
+                                </div>
+
+                                <br>
+
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+<!-- {% endif %} -->
+
+{% endblock %}
