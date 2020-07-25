@@ -19,11 +19,11 @@ def mytodos():
         completed_todos = Todo.query.filter_by(completed=True, user_id=session.get("user_id")).all()
         return render_template("todos.html", unfinished_todos=incomplete_todos, un_todos_len=len(incomplete_todos), finished_todos=completed_todos, fin_todos_len=len(completed_todos), name=session.get("user_name"))
     flash("Please Login to continue!!", category="error")
-    return url_for("login")
+    return redirect(url_for("login"))
 
 @app.route('/mytodos/add', methods=["POST", "GET"])
 def add():
-    if session.get("user_name") != None or session.get("user_name") != False:
+    if session.get("user_name"):
         new_todo = Todo(text=request.form["todoitem"], completed=False, user_id=session.get("user_id"))
         db.session.add(new_todo)
         db.session.commit()
@@ -33,7 +33,7 @@ def add():
 
 @app.route('/mytodos/completed/<id>')
 def completed(id):
-    if session.get("user_name") != None or session.get("user_name") != False:
+    if session.get("user_name"):
         todo = Todo.query.filter_by(id=int(id), user_id=session.get("user_id")).first()
         todo.completed = True
         db.session.commit()
@@ -43,7 +43,7 @@ def completed(id):
 
 @app.route('/mytodos/uncheck/<id>')
 def uncheck(id):
-    if session.get("user_name") != None or session.get("user_name") != False:
+    if session.get("user_name"):
         todo = Todo.query.filter_by(id=int(id), user_id=session.get("user_id")).first()
         todo.completed = False
         db.session.commit()
@@ -53,7 +53,7 @@ def uncheck(id):
 
 @app.route('/mytodos/delete/<id>')
 def delete(id):
-    if session.get("user_name") != None or session.get("user_name") != False:
+    if session.get("user_name"):
         todo = Todo.query.filter_by(id=int(id), user_id=session.get("user_id")).first()
         db.session.delete(todo)
         db.session.commit()
@@ -63,7 +63,7 @@ def delete(id):
 
 @app.route('/user/login', methods=["POST", "GET"])
 def login():
-    if session.get("user_name") != None or session.get("user_name") != False:
+    if session.get("user_name"):
         flash("You are aldready logged there is no need to login again {}".format(session.get("user_name")), category="success")
         return redirect(url_for("mytodos"))
 
@@ -75,6 +75,9 @@ def login():
                 session['user_id'] = user.id
                 session['user_name'] = user.name
                 return redirect(url_for("mytodos"))
+            else:
+                flash("Sorry but there was some error!!", category="error")
+                return render_template("login.html")
         else:
             flash("there was some error!!", category="error")
             email_error = True
@@ -84,7 +87,7 @@ def login():
 
 @app.route('/user/signup', methods=["POST", "GET"])
 def signup():
-    if session.get("user_name") != None or session.get("user_name") != False:
+    if session.get("user_name"):
         flash("You are aldready a user {}. You need to loggout if you want to create a new account!!".format(session.get("user_name")), category="success")
         return redirect(url_for("mytodos"))
 
@@ -132,8 +135,8 @@ def signup():
 
 @app.route('/user/logout')
 def logout():
-    session["user_id"] = None
-    session.pop("user_name", None)
+    session["user_id"] = False
+    session.pop("user_name", False)
     return redirect(url_for("home"))
 
 # @app.route('/send_email', methods=["POST", "GET"])
