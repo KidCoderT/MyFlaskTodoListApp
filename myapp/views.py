@@ -71,7 +71,7 @@ def login():
         user = User.query.filter_by(email=request.form.get("email")).first()
         if user:
             if user.get_password(request.form.get("password")):
-                flash("You were successfullyy Logged in!! Welcome back {}!!".format(user.name.title()), category="success")
+                flash("You were successfully Logged in!! Welcome back {}!!".format(user.name.title()), category="success")
                 session['user_id'] = user.id
                 session['user_name'] = user.name
                 return redirect(url_for("mytodos"))
