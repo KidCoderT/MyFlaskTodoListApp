@@ -1,0 +1,71 @@
+{% extends 'form_layout.html' %}
+
+{% block formtitle %}Login!{% endblock %}
+
+{% block redirectlink %}New user? <a href="/signup">Signup</a>.{% endblock %}
+
+{% block form %}
+
+<form action="{{ url_for('login') }}" method="POST" class="box">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+
+    {% for category, message in messages %}
+
+    {% if category == "error" %}
+
+    <div class="notification is-danger">
+        <button class="delete"></button>
+        {{ message }}
+    </div>
+
+    {% endif %}
+
+    {% endfor %}
+
+    {% endif %}
+    {% endwith %}
+
+    <div class="field">
+        <label for="" class="label">Email</label>
+        <div class="control has-icons-left">
+            <input type="email" placeholder="e.g. bobsmith@gmail.com" class="input" name="email" required>
+            <span class="icon is-small is-left">
+                <i class="fa fa-envelope"></i>
+            </span>
+        </div>
+        {% if email_error %}
+            <p class="help is-danger">There is no email called {{ email }} in our database 😦!</p>
+        {% endif %}
+    </div>
+    <div class="field">
+        <label for="" class="label">Password</label>
+        <div class="control has-icons-left">
+            <input type="password" placeholder="*******" class="input" name="password" required>
+            <span class="icon is-small is-left">
+                <i class="fa fa-lock"></i>
+            </span>
+        </div>
+        {% if password_error %}
+            <p class="help is-danger">We believe you have put a incorrect password 😦!</p>
+        {% endif %}
+    </div>
+    <div class="field">
+        <label for="" class="checkbox">
+            <input type="checkbox" name="remember-me">
+            Remember me
+        </label>
+    </div>
+    <div class="field is-grouped">
+        <div class="control">
+            <button class="button is-success">Login</button>
+        </div>
+        <div class="control">
+            <button class="button is-success is-light">Cancel</button>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}

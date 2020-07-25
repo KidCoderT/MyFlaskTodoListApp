@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block HeaderBottom %}
+
+<span class="subtitle is-10">Please Login or Signup to start using the <span class="is-bold">todolistapp!!</span></span>
+
+{% endblock %}
+
+{% block container %}
+
+<br>
+<div class="box">
+
+    <div class="columns">
+        <div class="column has-text-centered">
+            <span class="button box is-primary"><span class="is-center">Aldready A User? <a href="{{ url_for('login') }}" class="is-primary">Login</a></span>
+        </div>
+        <div class="column has-text-centered">
+            <span class="button box is-primary">New User? <a href="{{ url_for('signup') }}" class="is-primary">Signup</a></span>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends 'form_layout.html' %}
+
+{% block formtitle %}Signup!{% endblock %}
+
+{% block redirectlink %}Aldready a user? <a href="/login">login</a>.{% endblock %}
+
+{% block form %}
+
+<form action="{{ url_for('signup') }}" method="POST" class="box">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    
+        {% if messages %}
+        {% for category, message in messages %}
+
+            {% if category == "error" %}
+
+                <div class="notification is-danger">
+                    <button class="delete"></button>
+                    {{ message }}
+                </div>
+
+            {% endif %}
+
+        {% endfor %}
+        {% endif %}
+
+    <div class="field">
+        <label class="label">Username</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="Text input" name="username" {% if form_data %} value={{ form_data[0] }} {% else %} value='' {% endif %}>
+            <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+            </span>
+            <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+            </span>
+        </div>
+        {% if messages %}
+        {% for category, message in messages %}
+
+        {% if category == "user" %}
+
+        <p class="help is-danger">{{ message }}</p>
+
+        {% endif %}
+
+        {% endfor %}
+        {% endif %}
+    </div>
+    
+    <di0v class="field">
+        <label class="label">Email</label>
+        <div class="control has-icons-left has-icons-right">
+            <input class="input" type="email" placeholder="Email input" name="email" {% if form_data %} value={{ form_data[0] }} {% else %} value='' {% endif %}>
+            <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+            </span>
+            <span class="icon is-small is-right">
+                <i class="fas fa-exclamation-triangle"></i>
+            </span>
+        </div>
+        {% if messages %}
+        {% for category, message in messages %}
+
+        {% if category == "email" %}
+
+        <p class="help is-danger">{{ message }}</p>
+
+        {% endif %}
+
+        {% endfor %}
+        {% endif %}
+    </di0v>
+
+     <div c value=la ss="field">
+        <label class="label">Password</label>
+        <p class="control has-icons-left">
+            <input class="input" type="password" placeholder="Password" name="password" {% if form_data %} value={{ form_data[0] }} {% else %} value='' {% endif %} required>
+            <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+            </span>
+        </p>
+        <p class="control has-icons-left my-3">
+            <input class="input" type="password" placeholder="Re - Password" name="repeatpassword" {% if form_data %} value={{ form_data[0] }} {% else %} value='' {% endif %} required>
+            <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+            </span>
+        </p>
+        {% if messages %}
+        {% for category, message in messages %}
+
+        {% if category == "password" %}
+
+        <p class="help is-danger">{{ message }}</p>
+
+        {% endif %}
+
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <br>
+
+    <div class="field is-grouped"> 
+        <div class="control">
+            <button class="button is-link">Sign In</button>
+        </div>
+        <div class="control">
+            <button class="button is-link is-light">Cancel</button>
+        </div>
+        {% if messages %}
+        {% for category, message in messages %}
+
+        {% if category == "model" %}
+
+        <p class="help is-danger">{{ message }}</p>
+
+        {% endif %}
+
+        {% endfor %}
+        {% endif %}
+    </div>
+    {% endwith %}
+</form>
+
+{% endblock %}
+
+

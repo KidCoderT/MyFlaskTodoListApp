@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Todo App</title>
+    <title>{% block title %}Todo App{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
 </head>
@@ -14,7 +14,7 @@
             <nav class="navbar">
                 <div class="container">
                     <div class="navbar-brand">
-                        <a href="/" class="navbar-item is-2 has-text-white-bis">
+                        <a href="/home" class="navbar-item is-2 has-text-white-bis">
                             TodoListApp📝
                         </a>
                     </div>
@@ -28,6 +28,7 @@
                                     <span>Source Code</span>
                                 </a>
                             </span>
+                            {% block headerItems %}{% endblock %}
                         </div>
                     </div>
                 </div>
@@ -43,33 +44,9 @@
             <div class="container has-text-centered">
                 <div class="columns">
                     <div class="column is-4 is-offset-4">
-                        <form action="{{ url_for('add') }}" method="POST" class="level">
-                            <div class="level-item has-text-centered">
-                                <div>
-                                    <!-- <label class="label">What are we doing tonight fellas!!!!!! 🔥🔥</label> -->
-                                    <div class="field has-addons">
-                                        <div class="control">
-                                            <input class="input is-medium" type="text" placeholder="Write task here..." name="todoitem">
-                                        </div>
-                                        <div class="control">
-                                            <input class="button is-info is-medium" type="submit" value="Create">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                        {% block HeaderBottom %}{% endblock %}
                     </div>
                 </div>
-                <!-- <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title has-text-white has-background-primary">Todo List App📝</p>
-                    </header>
-                    <div class="card-content">
-                        <div class="content">
-                            
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
     </section>
@@ -84,5 +61,16 @@
     <br>
     
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+                $notification = $delete.parentNode;
+
+                $delete.addEventListener('click', () => {
+                    $notification.parentNode.removeChild($notification);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
