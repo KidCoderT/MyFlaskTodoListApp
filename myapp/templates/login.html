@@ -2,7 +2,7 @@
 
 {% block formtitle %}Login!{% endblock %}
 
-{% block redirectlink %}New user? <a href="/signup">Signup</a>.{% endblock %}
+{% block redirectlink %}New user? <a href="{{ url_for('signup') }}">Signup</a>.{% endblock %}
 
 {% block form %}
 
