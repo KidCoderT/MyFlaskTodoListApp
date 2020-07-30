@@ -14,11 +14,14 @@ class User(db.Model):
     def get_password(self, password):
         return check_password_hash(self.password, password)
 
+    def __repr__(self):
+        return self.name
+
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
-    text = db.Column(db.String(200))
+    user_id = db.Column(db.Integer, nullable=False)
+    text = db.Column(db.String(200), nullable=False)
     completed = db.Column(db.Boolean)
 
-    def __str__(self):
+    def __repr__(self):
         return self.text

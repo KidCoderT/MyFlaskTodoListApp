@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Todo App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     <link rel="stylesheet" href="https://unpkg.com/bulma-modal-fx/dist/css/modal-fx.min.css" />
-    <style>
-        img.icon {
-            border-radius: 10px;
-            border: 0.5px solid grey;
-        }
-    </style>
 </head>
+
 <body>
     <section class="hero is-primary is-medium">
         <!-- Hero head: will stick at the top -->
@@ -26,7 +23,6 @@
                     </div>
                     <div id="navbarMenuHeroA" class="navbar-menu">
                         <div class="navbar-end">
-
                             <span class="navbar-item">
                                 <a class="button is-primary is-inverted modal-button" data-target="modal-id">
                                     <span class="icon">
@@ -35,49 +31,22 @@
                                     <span>About</span>
                                 </a>
                             </span>
-                            
-                            {% if session["user_name"] %}
-                            
                             <span class="navbar-item">
-                                <a href="{{ url_for('logout') }}" class="button is-primary is-inverted">
+                                <a class="button is-primary is-inverted">
                                     <span class="icon">
-                                        <i class="fas fa-sign-out-alt"></i>
+                                        <i class="fab fa-github"></i>
                                     </span>
-                                    <span>Logout</span>
+                                    <span>Source Code</span>
                                 </a>
                             </span>
-                            
-                            {% else %}
-                            
                             <span class="navbar-item">
-                                <a href="{{ url_for('login') }}" class="button is-primary is-inverted">
+                                <a href="{{ url_for('mytodos') }}" class="button is-primary is-inverted">
                                     <span class="icon">
-                                        <i class="fas fa-sign-out-alt"></i>
+                                        <i class="fas fa-clipboard-check"></i>
                                     </span>
-                                    <span>Login</span>
+                                    <span>Go to your Todos!!</span>
                                 </a>
                             </span>
-                            <span class="navbar-item">
-                                <a href="{{ url_for('signup') }}" class="button is-primary is-inverted">
-                                    <span class="icon">
-                                        <i class="fas fa-user-plus"></i>
-                                    </span>
-                                    <span>SignUp</span>
-                                </a>
-                            </span>
-                            
-                            {% endif %}
-
-                            {% if session["user_name"] %}
-                            
-                            <span class="navbar-item">
-                                <a href="{{ url_for('user_profile', name=session['user_name']) }}" class="button is-primary is-inverted">
-                                    <img src={{ session['user_image'] }} alt="Image" class="icon is-rounded">
-                                    <span>Settings</span>
-                                </a>
-                            </span>
-                            
-                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -87,16 +56,45 @@
         <!-- Hero content: will be in the middle -->
         <div class="hero-body">
             <div class="container has-text-centered">
-                <h1 class="title is-1">Todo List App📝</h1>
+                <span class="icon is-large" style="width: 100px;">
+                    <img src={{ session['user_image'] }} alt="Image" style="border-radius: 50%;">
+                </span>
+                <br>
+                <h1 class="title is-1">Hi, {{ session["user_name"] }}🙂!!</h1>
             </div>
             <br>
             <div class="container has-text-centered">
                 <div class="columns">
                     <div class="column is-4 is-offset-4">
-                        {% block HeaderBottom %}{% endblock %}
+                        <h2 class="subtitle is-10">Here is your profile:</h2>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="hero-foot">
+            <nav class="tabs is-boxed is-fullwidth">
+                <div class="container">
+                    <ul>
+                        <li class="tab is-active" onclick="openTab(event,'AccountSettings')">
+                            <a>
+                                <span class="icon is-small">
+                                    <i class="fas fa-user-cog"></i>
+                                </span>
+                                Account Settings
+                            </a>
+                        </li>
+                        <li class="tab" onclick="openTab(event,'Feedback')">
+                            <a>
+                                <span class="icon is-small">
+                                    <i class="fas fa-comments"></i>
+                                </span>
+                                Feedback
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
         </div>
     </section>
 
@@ -105,12 +103,14 @@
     <br>
 
     <div class="container">
-        {% block container %}{% endblock %}
+        <div class="box">
+            
+        </div>
     </div>
+    
 
     <br>
-    <br>
-    
+
     <footer class="footer is-primary is-small">
         <div class="content has-text-centered">
             <p class="title is-4">
@@ -121,7 +121,6 @@
     </footer>
 
     <script type="text/javascript" src="https://unpkg.com/bulma-modal-fx/dist/js/modal-fx.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -135,4 +134,5 @@
         });
     </script>
 </body>
+
 </html>

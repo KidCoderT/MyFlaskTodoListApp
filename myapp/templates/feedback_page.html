@@ -1,0 +1,59 @@
+{% for feedback in feedback_query %}
+<article class="media">
+    <figure class="media-left">
+        <p class="image is-64x64">
+            <img src="{{ feedback.user_image }}">
+        </p>
+    </figure>
+    <div class="media-content">
+        <div class="content">
+            <p>
+                <strong>{{ feedback }}</strong> <small class="is-small">@{{ session['user_name'] }}</small>
+                <br>
+                {{ feedback.text }}
+                <br>
+                <small><a href="{{ url_for('like', id=feedback.id) }}">Like</a> {{ feedback.likes }} · <a
+                        href="{{ url_for('dislike', id=feedback.id) }}">Dislike</a> {{ feedback.dislikes }}
+                </small>
+            </p>
+        </div>
+    </div>
+</article>
+{% endfor %}
+
+<article class="media">
+    <figure class="media-left">
+        <p class="image is-64x64">
+            <img src="{{ session.user_image }}">
+        </p>
+    </figure>
+    <div class="media-content">
+        <div class="field">
+            <p class="control">
+                <input class="input" name="title" placeholder="Your Title.....">
+            </p>
+        </div>
+        <div class="field">
+            <p class="control">
+                <textarea class="textarea" name="message" placeholder="Your Message....."></textarea>
+            </p>
+        </div>
+        <div class="field">
+            <p class="control">
+            <div class="select is-fullwidth">
+                <select name="dropdown">
+                    <option>feedback</option>
+                    <option>problem</option>
+                </select>
+            </div>
+            </p>
+        </div>
+        <nav class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <input type="submit" value="Submit" class="button is-info">
+                </div>
+            </div>
+        </nav>
+    </div>
+</article>

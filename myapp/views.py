@@ -1,6 +1,7 @@
 from myapp import app, db
 from myapp.models import Todo, User
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import render_template, request, redirect, url_for, flash, session
+
 
 @app.route('/')
 @app.route('/home')
@@ -8,9 +9,7 @@ def home():
     if session.get("user_name"):
         return redirect(url_for("mytodos"))
     return render_template("home.html")
-    # if session.get("user_name"):
-    #     return render_template("user_home.html")
-    # return render_template("user_home.html", name="Tejas", email="Tejas75O25@gmail.com")
+
 
 @app.route('/mytodos')
 def mytodos():
@@ -20,6 +19,7 @@ def mytodos():
         return render_template("todos.html", unfinished_todos=incomplete_todos, un_todos_len=len(incomplete_todos), finished_todos=completed_todos, fin_todos_len=len(completed_todos), name=session.get("user_name"))
     flash("Please Login to continue!!", category="error")
     return redirect(url_for("login"))
+
 
 @app.route('/mytodos/add', methods=["POST", "GET"])
 def add():
@@ -31,6 +31,7 @@ def add():
     flash("Please Login to continue!!", category="error")
     return redirect(url_for("login"))
 
+
 @app.route('/mytodos/completed/<id>')
 def completed(id):
     if session.get("user_name"):
@@ -40,6 +41,7 @@ def completed(id):
         return redirect(url_for("mytodos"))
     flash("Please Login to continue!!", category="error")
     return redirect(url_for("login"))
+
 
 @app.route('/mytodos/uncheck/<id>')
 def uncheck(id):
@@ -51,6 +53,7 @@ def uncheck(id):
     flash("Please Login to continue!!", category="error")
     return redirect(url_for("login"))
 
+
 @app.route('/mytodos/delete/<id>')
 def delete(id):
     if session.get("user_name"):
@@ -61,11 +64,12 @@ def delete(id):
     flash("Please Login to continue!!", category="error")
     return redirect(url_for("login"))
 
+
 @app.route('/user/login', methods=["POST", "GET"])
 def login():
     if session.get("user_name"):
         flash("You are aldready logged there is no need to login again {}".format(session.get("user_name")), category="success")
-        return redirect(url_for("mytodos"))
+        return redirect(url_for("user_profile"))
 
     if request.method == "POST":
         user = User.query.filter_by(email=request.form.get("email")).first()
@@ -74,6 +78,7 @@ def login():
                 flash("You were successfully Logged in!! Welcome back {}!!".format(user.name.title()), category="success")
                 session['user_id'] = user.id
                 session['user_name'] = user.name
+                session['user_image'] = user.profile_image
                 return redirect(url_for("mytodos"))
             else:
                 flash("Sorry but there was some error!!", category="error")
@@ -84,6 +89,7 @@ def login():
             password_error = False
             return render_template("login.html", email_error=email_error, email=request.form.get("email"), password_error=password_error)
     return render_template("login.html")
+
 
 @app.route('/user/signup', methods=["POST", "GET"])
 def signup():
@@ -114,32 +120,34 @@ def signup():
                         db.session.commit()
                         return redirect(url_for("login"))
                     except Exception as e:
+                        print(e)
                         flash("some error happened while trying to create your User Model!! Try Again", category="model")
                 else:
                     flash("your username is aldready taken!!", category="user")
             else:
                 flash("there was some error in your password!!", category="error")
                 flash("your passwords don't match!!", category="password")
-                email_error = False
-                password_error = True
         
         else:
             flash("Sorry but there was some error with your email!!", category="error")
-            flash("Sorry but your email has aldready been taken!!", category="email")
-            email_error = True
-            password_error = False
 
         return render_template("signup.html", form_data=form_return_data)
     
     return render_template("signup.html")
 
+
 @app.route('/user/logout')
 def logout():
     session["user_id"] = False
     session.pop("user_name", False)
+    session.pop("user_image", None)
     return redirect(url_for("home"))
 
-# @app.route('/send_email', methods=["POST", "GET"])
-# def send_email():
-#   flash("Your email has been sent 🙂", category="success")
-#   return redirect("home")
+
+@app.route('/<name>/profile')
+def user_profile(name):
+    if session.get("user_name"):
+        return render_template("user_profile.html")
+    flash("Please Login to continue!!", category="error")
+    return redirect(url_for("login"))
+
