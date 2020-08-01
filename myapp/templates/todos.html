@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
+{% block title %}TodoListApp234({{ session.get("user_name") }})!!{% endblock %}
+
 {% block HeaderBottom %}
 
-<label class="label subtitle">Welcome back {{ name }}, you have {{ fin_todos_len }} finished todos and {{ un_todos_len }} unfinished todos!!</label>
+<label class="label subtitle">Welcome back {{ session.get("user_name") }}, you have {{ finished_todos|length }} finished todos and {{ unfinished_todos|length }} unfinished todos!!</label>
 
 <form action="{{ url_for('add') }}" method="POST" class="level">
     <div class="level-item has-text-centered">

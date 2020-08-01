@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}Todo App{% endblock %}</title>
+    <title>TodoListApp234(Tejas)|User Settings!!</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     <link rel="stylesheet" href="https://unpkg.com/bulma-modal-fx/dist/css/modal-fx.min.css" />
@@ -18,7 +18,7 @@
                 <div class="container">
                     <div class="navbar-brand">
                         <a href="/home" class="navbar-item is-2 has-text-white-bis">
-                            TodoListApp📝
+                            TodoListApp234📝
                         </a>
                     </div>
                     <div id="navbarMenuHeroA" class="navbar-menu">
@@ -32,7 +32,7 @@
                                 </a>
                             </span>
                             <span class="navbar-item">
-                                <a class="button is-primary is-inverted">
+                                <a href="https://github.com/KidCoderT/MyFlaskTodoListApp" target="_blank" class="button is-primary is-inverted">
                                     <span class="icon">
                                         <i class="fab fa-github"></i>
                                     </span>
@@ -71,31 +71,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="hero-foot">
-            <nav class="tabs is-boxed is-fullwidth">
-                <div class="container">
-                    <ul>
-                        <li class="tab is-active" onclick="openTab(event,'AccountSettings')">
-                            <a>
-                                <span class="icon is-small">
-                                    <i class="fas fa-user-cog"></i>
-                                </span>
-                                Account Settings
-                            </a>
-                        </li>
-                        <li class="tab" onclick="openTab(event,'Feedback')">
-                            <a>
-                                <span class="icon is-small">
-                                    <i class="fas fa-comments"></i>
-                                </span>
-                                Feedback
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
     </section>
 
     {% include "about_model.html" %}
@@ -104,7 +79,10 @@
 
     <div class="container">
         <div class="box">
-            
+            <h1 class="title is-3 has-text-centered">
+                <i class="fas fa-user-cog"></i> Account Settings
+            </h1>
+            <div class="box"></div>
         </div>
     </div>
     
