@@ -1,17 +1,19 @@
 from myapp import app, db
+from requests import get as url_check
 from myapp.models import Todo, User
+
 from flask import render_template, request, redirect, url_for, flash, session
 
 # All the views
 @app.route('/')
-@app.route('/home')
+@app.route('/home/')
 def home():
     session['redirect_to'] = "mytodos"
     if session.get("user_name"):
         return redirect(url_for("mytodos"))
     return render_template("home.html")
 
-@app.route('/mytodos')
+@app.route('/mytodos/')
 def mytodos():
     if session.get("user_name"):
         incomplete_todos = Todo.query.filter_by(completed=False, user_id=session.get("user_id")).all()
@@ -21,7 +23,7 @@ def mytodos():
     session['redirect_to'] = "mytodos"
     return redirect(url_for("login"))
 
-@app.route('/mytodos/add', methods=["POST", "GET"])
+@app.route('/mytodos/add/', methods=["POST", "GET"])
 def add():
     if session.get("user_name"):
         new_todo = Todo(text=request.form["todoitem"], completed=False, user_id=session.get("user_id"))
@@ -32,7 +34,7 @@ def add():
     session['redirect_to'] = "mytodos"
     return redirect(url_for("login"))
 
-@app.route('/mytodos/completed/<id>')
+@app.route('/mytodos/completed/<id>/')
 def completed(id):
     if session.get("user_name"):
         todo = Todo.query.filter_by(id=int(id), user_id=session.get("user_id")).first().completed = True
@@ -42,7 +44,7 @@ def completed(id):
     session['redirect_to'] = "mytodos"
     return redirect(url_for("login"))
 
-@app.route('/mytodos/uncheck/<id>')
+@app.route('/mytodos/uncheck/<id>/')
 def uncheck(id):
     if session.get("user_name"):
         todo = Todo.query.filter_by(id=int(id), user_id=session.get("user_id")).first().completed = False
@@ -52,7 +54,7 @@ def uncheck(id):
     session['redirect_to'] = "mytodos"
     return redirect(url_for("login"))
 
-@app.route('/mytodos/delete/<id>')
+@app.route('/mytodos/delete/<id>/')
 def delete(id):
     if session.get("user_name"):
         todo = Todo.query.filter_by(id=int(id), user_id=session.get("user_id")).first()
@@ -63,7 +65,7 @@ def delete(id):
     session['redirect_to'] = "mytodos"
     return redirect(url_for("login"))
 
-@app.route('/user/login', methods=["POST", "GET"])
+@app.route('/user/login/', methods=["POST", "GET"])
 def login():
     if session.get("user_name"):
         flash(f"You are already logged there is no need to login again {session.get('user_name')}", category="success")
@@ -90,7 +92,7 @@ def login():
             return render_template("login.html", email_error=email_error, email=request.form.get("email"), password_error=password_error)
     return render_template("login.html")
 
-@app.route('/user/signup', methods=["POST", "GET"])
+@app.route('/user/signup/', methods=["POST", "GET"])
 def signup():
     if session.get("user_name"):
         flash(f"You are already a user {session.get('user_name')}. You need to logout if you want to create a new account!!", category="success")
@@ -135,7 +137,7 @@ def signup():
 
     return render_template("signup.html")
 
-@app.route('/user/logout')
+@app.route('/user/logout/')
 def logout():
     session["user_id"] = False
     session.pop("user_name", False)
@@ -143,7 +145,7 @@ def logout():
     session['redirect_to'] = "mytodos"
     return redirect(url_for("home"))
 
-@app.route('/<name>/profile')
+@app.route('/<name>/profile/')
 def user_profile(name):
     if session.get("user_name"):
         if session.get("user_name") == name:
@@ -153,5 +155,38 @@ def user_profile(name):
             return redirect(url_for("user_profile", name=session.get("user_name")))
     flash("Please Login to continue!!", category="error")
     session['redirect_to'] = "user_profile"
+    return redirect(url_for("login"))
+
+@app.route("/set_image_to_default/")
+def set_image_to_default():
+    if session.get("user_name"):
+        user = User.query.filter_by(id=session.get("user_id")).first()
+        user.reset_profile_image()
+        session['user_image'] = user.profile_image
+        db.session.commit()
+        return redirect(url_for("user_profile", name=session.get("user_name")))
+    flash("Please Login to continue!!", category="error")
+    flash("And you can't just change someone elses profile image without them loging in 😠!!", category="error")
+    session['redirect_to'] = "set_image_to_default"
+    return redirect(url_for("login"))
+
+@app.route('/change_profile_image', methods=['POST'])
+def change_profile_image():
+    if session.get("user_name"):
+        if request.method == "POST":
+            try:
+                url_check(request.form.get("url"))
+                user = User.query.filter_by(id=session.get("user_id")).first()
+                user.profile_image = request.form.get("url")
+                session['user_image'] = user.profile_image
+                db.session.commit()
+            except Exception as E:
+                print(E)
+                flash("The url you gave was wrong :")
+            return redirect(url_for("user_profile", name=session.get("user_name")))
+        return redirect(url_for("user_profile", name=session.get("user_name")))
+    flash("Please Login to continue!!", category="error")
+    flash("And you can't just change someone elses profile image without them loging in 😠!!", category="error")
+    session['redirect_to'] = "set_image_to_default"
     return redirect(url_for("login"))
 

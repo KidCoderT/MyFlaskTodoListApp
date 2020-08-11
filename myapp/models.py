@@ -14,6 +14,9 @@ class User(db.Model):
     def get_password(self, password):
         return check_password_hash(self.password, password)
 
+    def reset_profile_image(self):
+        self.profile_image = "https://image.shutterstock.com/image-vector/user-icon-trendy-flat-style-260nw-418179856.jpg"
+
     def __repr__(self):
         return self.name
 

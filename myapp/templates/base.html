@@ -27,6 +27,8 @@
                     <div id="navbarMenuHeroA" class="navbar-menu">
                         <div class="navbar-end">
 
+                            {% block navbarItem %}
+
                             <span class="navbar-item">
                                 <a class="button is-primary is-inverted modal-button" data-target="modal-id">
                                     <span class="icon">
@@ -87,6 +89,8 @@
                             </span>
                             
                             {% endif %}
+
+                            {% endblock %}
                         </div>
                     </div>
                 </div>
@@ -96,7 +100,9 @@
         <!-- Hero content: will be in the middle -->
         <div class="hero-body">
             <div class="container has-text-centered">
-                <h1 class="title is-1">Todo List App📝</h1>
+                {% block centerblock %}
+                    <h1 class="title is-1">Todo List App📝</h1>
+                {% endblock %}
             </div>
             <br>
             <div class="container has-text-centered">
@@ -132,16 +138,6 @@
     <script type="text/javascript" src="https://unpkg.com/bulma-modal-fx/dist/js/modal-fx.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-                $notification = $delete.parentNode;
-
-                $delete.addEventListener('click', () => {
-                    $notification.parentNode.removeChild($notification);
-                });
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='myJsCode.js') }}"></script>
 </body>
 </html>

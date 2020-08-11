@@ -1,116 +1,99 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TodoListApp234(Tejas)|User Settings!!</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/bulma-modal-fx/dist/css/modal-fx.min.css" />
-</head>
+{% block title %}
+    TodoListApp234(Tejas)|User Settings!!
+{% endblock %}
 
-<body>
-    <section class="hero is-primary is-medium">
-        <!-- Hero head: will stick at the top -->
-        <div class="hero-head">
-            <nav class="navbar">
-                <div class="container">
-                    <div class="navbar-brand">
-                        <a href="/home" class="navbar-item is-2 has-text-white-bis">
-                            TodoListApp234📝
-                        </a>
+{% block navbarItem %}
+
+<span class="navbar-item">
+    <a class="button is-primary is-inverted modal-button" data-target="modal-id">
+        <span class="icon">
+            <i class="fas fa-address-card"></i>
+        </span>
+        <span>About</span>
+    </a>
+</span>
+
+<span class="navbar-item">
+    <a href="{{ url_for('logout') }}" class="button is-primary is-inverted">
+        <span class="icon">
+            <i class="fas fa-sign-out-alt"></i>
+        </span>
+        <span>Logout</span>
+    </a>
+</span>
+
+<span class="navbar-item">
+    <a href="https://github.com/KidCoderT/MyFlaskTodoListApp" target="_blank" class="button is-primary is-inverted">
+        <span class="icon">
+            <i class="fab fa-github"></i>
+        </span>
+        <span>Source Code</span>
+    </a>
+</span>
+<span class="navbar-item">
+    <a href="{{ url_for('mytodos') }}" class="button is-primary is-inverted">
+        <span class="icon">
+            <i class="fas fa-clipboard-check"></i>
+        </span>
+        <span>Go to your Todos!!</span>
+    </a>
+</span>
+
+{% endblock %}
+
+{% block centerblock %}
+
+<span class="icon is-large" style="width: 100px;">
+    <img src={{ session['user_image'] }} alt="Image" style="border-radius: 50%;">
+</span>
+<br>
+<h1 class="title is-1">Hi, {{ session["user_name"] }}🙂!!</h1>
+
+{% endblock %}
+
+{% block HeaderBottom %}
+
+    <h2 class="subtitle is-10">Here is your profile 📝:</h2>
+
+{% endblock %}
+
+{% block container %}
+<div class="box">
+    <h1 class="title is-3 is-bold">
+        <i class="fas fa-user-cog"></i> Account Settings
+        <hr>
+    </h1>
+    <div class="box">
+        <h1 class="title is-5 is-bold">
+                {#<i class="fas fa-user-cog"></i>#} Profile Image
+            <hr>
+        </h1>
+        <div class="box">
+            <form action="{{ url_for('change_profile_image') }}" method="post">
+                
+                <label class="label has-text-centered">New Profile Image URL!:</label>
+                <hr>
+                <div class="field is-grouped" style="margin-left: 250px;">
+                    <div class="control has-icons-left has-icons-right">
+                        <input class="input" placeholder="Image url" name="url">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-user"></i>
+                        </span>
                     </div>
-                    <div id="navbarMenuHeroA" class="navbar-menu">
-                        <div class="navbar-end">
-                            <span class="navbar-item">
-                                <a class="button is-primary is-inverted modal-button" data-target="modal-id">
-                                    <span class="icon">
-                                        <i class="fas fa-address-card"></i>
-                                    </span>
-                                    <span>About</span>
-                                </a>
-                            </span>
-                            <span class="navbar-item">
-                                <a href="https://github.com/KidCoderT/MyFlaskTodoListApp" target="_blank" class="button is-primary is-inverted">
-                                    <span class="icon">
-                                        <i class="fab fa-github"></i>
-                                    </span>
-                                    <span>Source Code</span>
-                                </a>
-                            </span>
-                            <span class="navbar-item">
-                                <a href="{{ url_for('mytodos') }}" class="button is-primary is-inverted">
-                                    <span class="icon">
-                                        <i class="fas fa-clipboard-check"></i>
-                                    </span>
-                                    <span>Go to your Todos!!</span>
-                                </a>
-                            </span>
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <input type="submit" value="Submit" class="button is-link">
+                        </div>
+                        <div class="control">
+                            <a href="/set_image_to_default" class="button is-link">Set to default!</a>
                         </div>
                     </div>
                 </div>
-            </nav>
-        </div>
-
-        <!-- Hero content: will be in the middle -->
-        <div class="hero-body">
-            <div class="container has-text-centered">
-                <span class="icon is-large" style="width: 100px;">
-                    <img src={{ session['user_image'] }} alt="Image" style="border-radius: 50%;">
-                </span>
-                <br>
-                <h1 class="title is-1">Hi, {{ session["user_name"] }}🙂!!</h1>
-            </div>
-            <br>
-            <div class="container has-text-centered">
-                <div class="columns">
-                    <div class="column is-4 is-offset-4">
-                        <h2 class="subtitle is-10">Here is your profile:</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {% include "about_model.html" %}
-
-    <br>
-
-    <div class="container">
-        <div class="box">
-            <h1 class="title is-3 has-text-centered">
-                <i class="fas fa-user-cog"></i> Account Settings
-            </h1>
-            <div class="box"></div>
+                
+            </form>
         </div>
     </div>
-    
-
-    <br>
-
-    <footer class="footer is-primary is-small">
-        <div class="content has-text-centered">
-            <p class="title is-4">
-                This is Made by the <a href="https://github.com/KidCoderT" target="_blank">@KidCoderT<i
-                        class="fab fa-github-alt"></i></a>
-            </p>
-        </div>
-    </footer>
-
-    <script type="text/javascript" src="https://unpkg.com/bulma-modal-fx/dist/js/modal-fx.min.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-                $notification = $delete.parentNode;
-
-                $delete.addEventListener('click', () => {
-                    $notification.parentNode.removeChild($notification);
-                });
-            });
-        });
-    </script>
-</body>
-
-</html>
+</div>
+{% endblock %}
